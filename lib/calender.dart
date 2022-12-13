@@ -254,7 +254,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 //custom icon
                  // This trailing comma makes auto-formatting nicer for build methods.
                 //custom icon without header
-
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: _calendarCarousel,
+                ),
                 Container(
                   margin: EdgeInsets.only(
                     top: 30.0,
