@@ -9,18 +9,18 @@ void main() {
           centerTitle: true,
           title: const Text('Flutter Gradients'),
         ),
-        body: MyApp(),
+        body: bizzApp(),
       ),
     ),
   );
 }
 
-class MyApp extends StatefulWidget {
+class bizzApp extends StatefulWidget {
   @override
-  MyAppState createState() => MyAppState();
+  bizzAppState createState() => bizzAppState();
 }
 
-class MyAppState extends State<MyApp> {
+class bizzAppState extends State<bizzApp> {
   @override
   Widget build(BuildContext context) {
     var listGradientName = FlutterGradientNames.values;
