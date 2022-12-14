@@ -1,3 +1,4 @@
+import 'package:contact/bizz.dart';
 import 'package:draggable_home/draggable_home.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_gradients/flutter_gradients.dart';
@@ -40,6 +41,71 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
+
+    return DraggableHome(
+      leading: const Icon(Icons.arrow_back_ios),
+      title: const Text("Gradient"),
+      actions: [
+        IconButton(onPressed: () {
+          // Within the `FirstRoute` widget
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ColorPallet()),
+            );
+
+        }, icon: const Icon(Icons.settings)),
+      ],
+      headerWidget: headerWidget(context),
+      headerBottomBar: headerBottomBarWidget(),
+      body: [
+        makeGridView4()
+      ],
+      fullyStretchable: true,
+      expandedBody: bizzApp(),
+      backgroundColor: Colors.white,
+      appBarColor: Colors.teal,
+    );
+  }
+
+  Row headerBottomBarWidget() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: const [
+        Icon(
+          Icons.settings,
+          color: Colors.white,
+        ),
+      ],
+    );
+  }
+
+  Widget headerWidget(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.blue,
+              Colors.green,
+            ],
+          )
+      ),
+      child: Center(
+        child: Text(
+          "Hello Gradient!",
+          style: Theme.of(context)
+              .textTheme
+              .headline2!
+              .copyWith(color: Colors.white70),
+        ),
+      ),
+    );
+  }
+
+  Widget calenderHate(){
     final _calendarCarouselNoHeader = CalendarCarousel<Event>(
       todayBorderColor: Colors.green,
       onDayPressed: (date, events) {
@@ -100,133 +166,107 @@ class _HomePageState extends State<HomePage> {
         print('long pressed date $date');
       },
     );
-
-
-
-
-    return DraggableHome(
-      leading: const Icon(Icons.arrow_back_ios),
-      title: const Text("Gradient"),
-      actions: [
-        IconButton(onPressed: () {
-          // Within the `FirstRoute` widget
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ColorPallet()),
-            );
-
-        }, icon: const Icon(Icons.settings)),
-      ],
-      headerWidget: headerWidget(context),
-      headerBottomBar: headerBottomBarWidget(),
-      body: [
-        Container(
-
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              //custom icon
-              // This trailing comma makes auto-formatting nicer for build methods.
-              //custom icon without header
-
-              Container(
-                margin: EdgeInsets.only(
-                  top: 30.0,
-                  bottom: 16.0,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-                child: new Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _targetDateTime = DateTime(
-                                _targetDateTime.year, _targetDateTime.month - 1);
-                            _currentMonth =
-                                DateFormat.yMMM().format(_targetDateTime);
-                          });
-                        }, icon: const Icon(Icons.arrow_back_ios)
-                    ),
-                    Expanded(
-                        child: Center(
-                          child: Text(
-                            _currentMonth,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 40.0,
-                            ),
-                          ),
-                        )),
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _targetDateTime = DateTime(
-                                _targetDateTime.year, _targetDateTime.month + 1);
-                            _currentMonth =
-                                DateFormat.yMMM().format(_targetDateTime);
-                          });
-                        }, icon: const Icon(Icons.arrow_forward_ios)
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: _calendarCarouselNoHeader,
-              ), //
-            ],
-          ),
-        ),
-
-      ],
-      fullyStretchable: true,
-      expandedBody: Column(),
-      backgroundColor: Colors.white,
-      appBarColor: Colors.teal,
-    );
-  }
-
-  Row headerBottomBarWidget() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
-        Icon(
-          Icons.settings,
-          color: Colors.white,
-        ),
-      ],
-    );
-  }
-
-  Widget headerWidget(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.blue,
-              Colors.green,
-            ],
-          )
-      ),
-      child: Center(
-        child: Text(
-          "Hello Gradient!",
-          style: Theme.of(context)
-              .textTheme
-              .headline2!
-              .copyWith(color: Colors.white70),
-        ),
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          //custom icon
+          // This trailing comma makes auto-formatting nicer for build methods.
+          //custom icon without header
+
+          Container(
+            margin: EdgeInsets.only(
+              top: 30.0,
+              bottom: 16.0,
+              left: 16.0,
+              right: 16.0,
+            ),
+            child: new Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _targetDateTime = DateTime(
+                            _targetDateTime.year, _targetDateTime.month - 1);
+                        _currentMonth =
+                            DateFormat.yMMM().format(_targetDateTime);
+                      });
+                    }, icon: const Icon(Icons.arrow_back_ios)
+                ),
+                Expanded(
+                    child: Center(
+                      child: Text(
+                        _currentMonth,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40.0,
+                        ),
+                      ),
+                    )),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _targetDateTime = DateTime(
+                            _targetDateTime.year, _targetDateTime.month + 1);
+                        _currentMonth =
+                            DateFormat.yMMM().format(_targetDateTime);
+                      });
+                    }, icon: const Icon(Icons.arrow_forward_ios)
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 8.0),
+            child: _calendarCarouselNoHeader,
+          ),
+          //
+        ],
       ),
     );
   }
+
+  Widget makeGridView4() {
+    List<Color> colorList = [
+      Colors.white,
+      Colors.red,
+      Colors.blue,
+      Colors.green,
+      Colors.yellow,
+      Colors.brown,
+      Colors.white,
+      Colors.red,
+      Colors.blue,
+      Colors.green,
+      Colors.yellow,
+      Colors.brown,
+
+    ];
+
+    return GridView.extent(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        maxCrossAxisExtent: 80.0,
+        crossAxisSpacing: 4.0,
+        mainAxisSpacing: 8.0,
+        childAspectRatio: 1.0,
+        children: List.generate(colorList.length, (index) {
+          return Expanded(
+            child: Container(
+              color: colorList[index],
+              child: Text(
+                  "List item :: $index"
+              ),
+            ),
+          );
+        })
+    );
+  }
+
 
 
   ListView listView() {

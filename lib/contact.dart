@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'bizz.dart';
+import 'package:flutter_gradients/flutter_gradients.dart';
 
 void main() {
   runApp(
@@ -53,6 +55,8 @@ class _MyAppState extends State<MyApp> {
 
   get children => null;
 
+  final gradientBizz = FlutterGradients();
+
   @override
   build(context) {
     //여기서부터가 앱 디자인하는 부분
@@ -80,11 +84,19 @@ class _MyAppState extends State<MyApp> {
           ],
         ),
         body: ListView.builder(
-          itemCount: name.length,
+          itemCount: name.length,   // 리스트의 크기 만큼의 것을 준다
           itemBuilder: (context,i) {
             print(i);
             return ListTile(
-              leading : Image.asset('assets/profile.jpg'),
+
+              leading : Container(
+                width: 50,
+                height: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: FlutterGradients.magicLake(),
+                ),
+              ),
               title : Text(name[i]),
 
             );
