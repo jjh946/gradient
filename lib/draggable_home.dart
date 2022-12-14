@@ -1,9 +1,9 @@
 import 'package:contact/bizz.dart';
 import 'package:draggable_home/draggable_home.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_gradients/flutter_gradients.dart';
+import 'package:flutter_gradients/flutter_gradients.dart';
 import 'colorpicker.dart';
-import 'calender.dart';
+
 
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
@@ -231,19 +231,28 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget makeGridView4() {
-    List<Color> colorList = [
+    List colorList = [
+      FlutterGradients.magicLake(),
+      FlutterGradients.flyingLemon(),
+      FlutterGradients.forestInei(),
+      FlutterGradients.freshMilk(),
+      FlutterGradients.freshOasis(),
+      FlutterGradients.frozenBerry(),
+      FlutterGradients.frozenDreams(),
+      FlutterGradients.frozenHeat(),
+      FlutterGradients.fruitBlend(),
+      FlutterGradients.gagarinView(),
+      FlutterGradients.gentleCare(),
+      FlutterGradients.grassShampoo(),
+      LinearGradient(
+      begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+    colors: [
+    Colors.blue,
+    Colors.green,
       Colors.white,
-      Colors.red,
-      Colors.blue,
-      Colors.green,
-      Colors.yellow,
-      Colors.brown,
-      Colors.white,
-      Colors.red,
-      Colors.blue,
-      Colors.green,
-      Colors.yellow,
-      Colors.brown,
+    ],
+      ),
 
     ];
 
@@ -257,9 +266,11 @@ class _HomePageState extends State<HomePage> {
         children: List.generate(colorList.length, (index) {
           return Expanded(
             child: Container(
-              color: colorList[index],
-              child: Text(
-                  "List item :: $index"
+              width: 50,
+              height: 150,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: colorList[index],
               ),
             ),
           );
