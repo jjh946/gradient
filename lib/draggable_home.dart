@@ -3,7 +3,7 @@ import 'package:draggable_home/draggable_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gradients/flutter_gradients.dart';
 import 'colorpicker.dart';
-
+import 'circlur_menu.dart';
 
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
@@ -38,6 +38,37 @@ class _HomePageState extends State<HomePage> {
   String _currentMonth = DateFormat.yMMM().format(DateTime(2022, 12, 14));
   DateTime _targetDateTime = DateTime(2022, 12, 14);
 
+  List gradientList = [
+    FlutterGradients.magicLake(),
+    FlutterGradients.flyingLemon(),
+    FlutterGradients.forestInei(),
+    FlutterGradients.freshMilk(),
+    FlutterGradients.freshOasis(),
+    FlutterGradients.frozenBerry(),
+    FlutterGradients.frozenDreams(),
+    FlutterGradients.frozenHeat(),
+    FlutterGradients.fruitBlend(),
+    FlutterGradients.gagarinView(),
+    FlutterGradients.gentleCare(),
+    FlutterGradients.grassShampoo(),
+    LinearGradient(
+      begin: Alignment.topRight,
+      end: Alignment.bottomLeft,
+      colors: [
+        Colors.blue,
+        Colors.green,
+        Colors.white,
+      ],
+    ),
+
+  ];
+
+  addGradient(a){
+    setState(() {
+      gradientList.add(a);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -50,7 +81,7 @@ class _HomePageState extends State<HomePage> {
           // Within the `FirstRoute` widget
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ColorPallet()),
+              MaterialPageRoute(builder: (context) => ColorPickerDemo()),
             );
 
         }, icon: const Icon(Icons.settings)),
@@ -58,8 +89,25 @@ class _HomePageState extends State<HomePage> {
       headerWidget: headerWidget(context),
       headerBottomBar: headerBottomBarWidget(),
       body: [
-        makeGridView4()
+        calenderHate()
       ],
+      bottomNavigationBar: Builder(
+            builder: (context) {
+              return FloatingActionButton(
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => addApp()),
+                  );
+
+
+                   // return DialogUI( addGradient : addGradient);
+
+                },child: Icon(Icons.add),
+              );
+            }
+            ),
+
       fullyStretchable: true,
       expandedBody: bizzApp(),
       backgroundColor: Colors.white,
@@ -222,7 +270,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 8.0),
-            child: _calendarCarouselNoHeader,
+            child: makeGridView4(),
           ),
           //
         ],
@@ -231,30 +279,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget makeGridView4() {
-    List colorList = [
-      FlutterGradients.magicLake(),
-      FlutterGradients.flyingLemon(),
-      FlutterGradients.forestInei(),
-      FlutterGradients.freshMilk(),
-      FlutterGradients.freshOasis(),
-      FlutterGradients.frozenBerry(),
-      FlutterGradients.frozenDreams(),
-      FlutterGradients.frozenHeat(),
-      FlutterGradients.fruitBlend(),
-      FlutterGradients.gagarinView(),
-      FlutterGradients.gentleCare(),
-      FlutterGradients.grassShampoo(),
-      LinearGradient(
-      begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
-    colors: [
-    Colors.blue,
-    Colors.green,
-      Colors.white,
-    ],
-      ),
 
-    ];
 
     return GridView.extent(
         scrollDirection: Axis.vertical,
@@ -263,14 +288,14 @@ class _HomePageState extends State<HomePage> {
         crossAxisSpacing: 4.0,
         mainAxisSpacing: 8.0,
         childAspectRatio: 1.0,
-        children: List.generate(colorList.length, (index) {
+        children: List.generate(gradientList.length, (index) {
           return Expanded(
             child: Container(
               width: 50,
               height: 150,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: colorList[index],
+                gradient: gradientList[index],
               ),
             ),
           );
@@ -299,6 +324,57 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+class DialogUI extends StatelessWidget {
+  DialogUI({Key? key, this.addOne, this.addGradient}) : super(key: key);
+  final addOne;
+  final addGradient;
+  var inputData = TextEditingController();
+  List<Color> colorList = [
+    Colors.purple,
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: SizedBox(
+        width: 300,
+        height: 300,
+        child: Column(
+          children: [
+            Text('감정 추가'),
+            TextField( controller: inputData, ),
+            Text(inputData.text),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(onPressed: (){ Navigator.pop(context); }, child: Text("Cancel")),
+                TextButton(
+                    onPressed: (){
+                      addGradient(
+                        LinearGradient(
+
+                          colors: [
+                            Colors.white,
+                            Color(0xffc8ffeb),
+                            Colors.blue,
+                          ],
+                        ),
+                      );
+                    },
+                    child: Text('OK ')),
+              ],
+            )
+          ],
+        ),
+      ),
+    );;
+  }
+}
 
 class ColorPallet extends StatelessWidget {
   const ColorPallet({super.key});
@@ -307,8 +383,7 @@ class ColorPallet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading:
-        IconButton(onPressed: () {
+        leading: IconButton(onPressed: () {
           Navigator.pop(context);
         }, icon: const Icon(Icons.arrow_back_ios)),
 

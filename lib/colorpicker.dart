@@ -93,6 +93,9 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: () {
+          Navigator.pop(context);
+        }, icon: const Icon(Icons.arrow_back_ios)),
         centerTitle: true,
         title: const Text('ColorPicker'),
       ),
@@ -250,17 +253,7 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
           ),
 
           // Theme mode toggle
-          SwitchListTile(
-            title: const Text('Turn ON for dark mode'),
-            subtitle: const Text('Turn OFF for light mode'),
-            value: isDark,
-            onChanged: (bool value) {
-              setState(() {
-                isDark = value;
-                widget.themeMode(isDark ? ThemeMode.dark : ThemeMode.light);
-              });
-            },
-          )
+
         ],
       ),
     );
