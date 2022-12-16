@@ -154,7 +154,7 @@ class _homeAppState extends State<homeApp> {
                   children: <Widget>[
                     shitcalendar(),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8.0),
+                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: makeGridView4(),
                     ),
                   ]
@@ -208,7 +208,7 @@ class _homeAppState extends State<homeApp> {
             child: Text(
               _currentMonth,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontFamily: 'Julius',
                 fontSize: 40.0,
               ),
             ),
@@ -245,6 +245,14 @@ class _homeAppState extends State<homeApp> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: gradientList[index],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.4),
+                    spreadRadius: 2.0,
+                    blurRadius: 7.0,
+                    offset: Offset(2, 2), // changes position of shadow
+                  ),
+                ],
               ),
             ),
           );

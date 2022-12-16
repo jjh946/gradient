@@ -135,8 +135,8 @@ class _addAppState extends State<addApp> {
             children: [
 
               Container(
-                  margin: EdgeInsets.fromLTRB(0, 180, 0, 20),
-                  child: Text('오늘은 어떤 감정들을 느꼈나요?',
+                  margin: EdgeInsets.fromLTRB(0, 180, 0, 35),
+                  child: Text('     오늘은 어떤 감정들을 느꼈나요?',
                     style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.0),
                   )
               ),
@@ -146,6 +146,14 @@ class _addAppState extends State<addApp> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: _gradient,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 3.0,
+                      blurRadius: 7.0,
+                      offset: Offset(0, 0), // changes position of shadow
+                    ),
+                  ],
                 ),
               ),
             ],
