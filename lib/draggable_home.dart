@@ -154,66 +154,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget calenderHate(){
-    final _calendarCarouselNoHeader = CalendarCarousel<Event>(
-      todayBorderColor: Colors.green,
-      onDayPressed: (date, events) {
-        this.setState(() => _currentDate2 = date);
-        events.forEach((event) => print(event.title));
-      },
-      daysHaveCircularBorder: true,
-      showOnlyCurrentMonthDate: false,
-      weekendTextStyle: TextStyle(
-        color: Colors.greenAccent,
-      ),
-      thisMonthDayBorderColor: Colors.grey,
-      weekFormat: false,
-//      firstDayOfWeek: 4,
 
-      height: 420.0,
-      selectedDateTime: _currentDate2,
-      targetDateTime: _targetDateTime,
-      customGridViewPhysics: NeverScrollableScrollPhysics(),
-      markedDateCustomShapeBorder:
-      CircleBorder(side: BorderSide(color: Colors.indigoAccent)),
-      markedDateCustomTextStyle: TextStyle(
-        fontSize: 18,
-        color: Colors.blue,
-      ),
-      showHeader: false,
-      todayTextStyle: TextStyle(
-        color: Colors.blue,
-      ),
-      // markedDateShowIcon: true,
-      // markedDateIconMaxShown: 2,
-      // markedDateIconBuilder: (event) {
-      //   return event.icon;
-      // },
-      // markedDateMoreShowTotal:
-      //     true,
-      todayButtonColor: Colors.yellow,
-      selectedDayTextStyle: TextStyle(
-        color: Colors.white,
-      ),
-      minSelectedDate: _currentDate.subtract(Duration(days: 360)),
-      maxSelectedDate: _currentDate.add(Duration(days: 360)),
-      prevDaysTextStyle: TextStyle(
-        fontSize: 16,
-        color: Colors.grey,
-      ),
-      inactiveDaysTextStyle: TextStyle(
-        color: Colors.tealAccent,
-        fontSize: 16,
-      ),
-      onCalendarChanged: (DateTime date) {
-        this.setState(() {
-          _targetDateTime = date;
-          _currentMonth = DateFormat.yMMM().format(_targetDateTime);
-        });
-      },
-      onDayLongPressed: (DateTime date) {
-        print('long pressed date $date');
-      },
-    );
     return Container(
 
       child: Column(
@@ -329,14 +270,7 @@ class DialogUI extends StatelessWidget {
   final addOne;
   final addGradient;
   var inputData = TextEditingController();
-  List<Color> colorList = [
-    Colors.purple,
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
 
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -356,14 +290,7 @@ class DialogUI extends StatelessWidget {
                 TextButton(
                     onPressed: (){
                       addGradient(
-                        LinearGradient(
-
-                          colors: [
-                            Colors.white,
-                            Color(0xffc8ffeb),
-                            Colors.blue,
-                          ],
-                        ),
+                        LinearGradient(colors: [Colors.white, Color(0xffc8ffeb),Colors.blue,],),
                       );
                     },
                     child: Text('OK ')),

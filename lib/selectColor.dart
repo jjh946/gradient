@@ -95,20 +95,43 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
       appBar: AppBar(
         leading: IconButton(onPressed: () {
           Navigator.pop(context);
-        }, icon: const Icon(Icons.arrow_back_ios,color: Color(0xff606060),)),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text('나의 감정 팔레트 설정', style: TextStyle(color: Color(0xff393939)),),
+        }, icon: const Icon(Icons.arrow_back_ios)),
         centerTitle: true,
-        actions: [Icon(Icons.palette_outlined)],
-        
+        title: const Text('ColorPicker'),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
         children: <Widget>[
           const SizedBox(height: 16),
           // Pick color in a dialog.
-
+          ListTile(
+            title: const Text('Click this color to modify it in a dialog. '
+                'The color is modified while dialog is open, but returns '
+                'to previous value if dialog is cancelled'),
+            subtitle: Text(
+              // ignore: lines_longer_than_80_chars
+              '${ColorTools.materialNameAndCode(dialogPickerColor, colorSwatchNameMap: colorsNameMap)} '
+                  'aka ${ColorTools.nameThatColor(dialogPickerColor)}',
+            ),
+            trailing: ColorIndicator(
+              width: 44,
+              height: 44,
+              borderRadius: 4,
+              color: dialogPickerColor,
+              onSelectFocus: false,
+              onSelect: () async {
+                // Store current color before we open the dialog.
+                final Color colorBeforeDialog = dialogPickerColor;
+                // Wait for the picker to close, if dialog was dismissed,
+                // then restore the color we had before it was opened.
+                if (!(await colorPickerDialog())) {
+                  setState(() {
+                    dialogPickerColor = colorBeforeDialog;
+                  });
+                }
+              },
+            ),
+          ),
           ListTile(
             title: const Text('Click to select a new color from a dialog '
                 'that uses custom open/close animation. The color is only '
@@ -186,7 +209,19 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                 }),
           ),
 
-
+          // Show the selected color.
+          ListTile(
+            title: const Text('Select color below to change this color'),
+            subtitle:
+            Text('${ColorTools.materialNameAndCode(screenPickerColor)} '
+                'aka ${ColorTools.nameThatColor(screenPickerColor)}'),
+            trailing: ColorIndicator(
+              width: 44,
+              height: 44,
+              borderRadius: 22,
+              color: screenPickerColor,
+            ),
+          ),
 
           // Show the color picker in sized box in a raised card.
           SizedBox(
@@ -214,19 +249,6 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                   ),
                 ),
               ),
-            ),
-          ),
-          // Show the selected color.
-          ListTile(
-            title: const Text('Select color below to change this color'),
-            subtitle:
-            Text('${ColorTools.materialNameAndCode(screenPickerColor)} '
-                'aka ${ColorTools.nameThatColor(screenPickerColor)}'),
-            trailing: ColorIndicator(
-              width: 44,
-              height: 44,
-              borderRadius: 22,
-              color: screenPickerColor,
             ),
           ),
 

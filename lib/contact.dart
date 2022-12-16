@@ -62,20 +62,18 @@ class _MyAppState extends State<MyApp> {
     //여기서부터가 앱 디자인하는 부분
     //flutter에서 앱디자인 넣는 법 위젯 짜집기
     return Scaffold(
-        floatingActionButton: Center(
-          child: Builder(
-              builder: (context) {
-                return FloatingActionButton(
-                  onPressed: (){
+        floatingActionButton: Builder(
+            builder: (context) {
+              return FloatingActionButton(
+                onPressed: (){
 
-                    showDialog(context: context, builder: (context){
-                      return DialogUI( addOne : addOne, addName : addName );
-                    }
-                    );
-                  },child: Icon(Icons.add),
-                );
-              }
-          ),
+                  showDialog(context: context, builder: (context){
+                    return DialogUI( addOne : addOne, addName : addName );
+                  }
+                  );
+                },child: Icon(Icons.add),
+              );
+            }
         ),
         appBar: AppBar(
           title: Text('전화번호 목록 (' + total.toString() + ')'),
