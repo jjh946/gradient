@@ -17,8 +17,6 @@ class homeApp extends StatefulWidget {
 }
 
 class _homeAppState extends State<homeApp> {
-  String _colorName = 'No';
-  Color _color = Colors.black;
 
   String _currentMonth = DateFormat.yMMM().format(DateTime(2022, 12, 14));
   DateTime _targetDateTime = DateTime(2022, 12, 14);
@@ -50,6 +48,11 @@ class _homeAppState extends State<homeApp> {
   addGradient(a) {
     setState(() {
       gradientList.add(a);
+    });
+  }
+  deleteGradient() {
+    setState(() {
+      gradientList.removeLast();
     });
   }
 
@@ -122,9 +125,7 @@ class _homeAppState extends State<homeApp> {
                         color: Color(0xff606060),
                       ),
                       onPressed: () {
-                        addGradient(
-                          LinearGradient(colors: [Colors.white, Color(0xffc8ffeb),Colors.blue,],),
-                        );
+                        deleteGradient();
                       }),
                   IconButton(
                       icon: Icon(
@@ -132,10 +133,7 @@ class _homeAppState extends State<homeApp> {
                         color: Color(0xff606060),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => addApp()),
-                        );
+                        addGradient(FlutterGradients.seaStrike());
                       }),
                   IconButton(
                       icon: Icon(
@@ -173,7 +171,7 @@ class _homeAppState extends State<homeApp> {
       context,
       MaterialPageRoute(builder: (context) => addApp()),
     ).then((value){
-      addGradient(value);
+      if (value!=null){addGradient(value);}
     });
 
     // When a BuildContext is used from a StatefulWidget, the mounted property
@@ -182,9 +180,7 @@ class _homeAppState extends State<homeApp> {
 
     // After the Selection Screen returns a result, hide any previous snackbars
     // and show the new result.
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$result')));
+
   }
 
   Widget shitcalendar() {

@@ -16,12 +16,13 @@ class _addAppState extends State<addApp> {
   String _colorName = 'No';
   Color _color = Colors.black;
   Gradient _gradient = LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
     colors: [
 
     ],
   );
+
   List colorList = [];
   List colorNameList = [];
 
@@ -45,13 +46,21 @@ class _addAppState extends State<addApp> {
           appBar: AppBar(
             leading: IconButton(onPressed: () {
               Navigator.pop(
-                context,
-                _gradient
+                context
               );
             }, icon: const Icon(Icons.arrow_back_ios,color: Color(0xff606060),)),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             title: Text('Flutter Circular Menu'),
+            actions: [TextButton(onPressed: (){
+              Navigator.pop(
+                  context,
+                  _gradient
+              );
+            },
+                child: Text('완료',style: TextStyle(color: Color(0xff606060),))
+            )
+            ],
           ),
           body: CircularMenu(
             alignment: Alignment.bottomCenter,
@@ -124,8 +133,9 @@ class _addAppState extends State<addApp> {
         return Center(
           child: Column(
             children: [
+
               Container(
-                  margin: EdgeInsets.all(100),
+                  margin: EdgeInsets.fromLTRB(0, 180, 0, 20),
                   child: Text('오늘은 어떤 감정들을 느꼈나요?',
                     style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.0),
                   )
