@@ -165,7 +165,7 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                     wheelDiameter: 165,
                     enableOpacity: true,
                     showColorCode: true,
-                    colorCodeHasColor: true,
+                    colorCodeHasColor: false,
                     pickersEnabled: <ColorPickerType, bool>{
                       ColorPickerType.wheel: true,
                     },
@@ -294,10 +294,10 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
       colorCodePrefixStyle: Theme.of(context).textTheme.bodySmall,
       selectedPickerTypeColor: Theme.of(context).colorScheme.primary,
       pickersEnabled: const <ColorPickerType, bool>{
-        ColorPickerType.both: false,
+        ColorPickerType.both: true,
         ColorPickerType.primary: true,
         ColorPickerType.accent: true,
-        ColorPickerType.bw: false,
+        ColorPickerType.bw: true,
         ColorPickerType.custom: true,
         ColorPickerType.wheel: true,
       },

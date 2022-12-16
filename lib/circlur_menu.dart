@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:circular_menu/circular_menu.dart';
+import 'home.dart';
 
 void main() {
   runApp(MaterialApp(home: addApp())
@@ -14,6 +15,15 @@ class addApp extends StatefulWidget {
 class _addAppState extends State<addApp> {
   String _colorName = 'No';
   Color _color = Colors.black;
+  Gradient _gradient = LinearGradient(
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+    colors: [
+
+    ],
+  );
+  List colorList = [];
+  List colorNameList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +44,10 @@ class _addAppState extends State<addApp> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             leading: IconButton(onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(
+                context,
+                _gradient
+              );
             }, icon: const Icon(Icons.arrow_back_ios,color: Color(0xff606060),)),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -42,22 +55,10 @@ class _addAppState extends State<addApp> {
           ),
           body: CircularMenu(
             alignment: Alignment.bottomCenter,
-            backgroundWidget: Center(
-              child: RichText(
-                text: TextSpan(
-                  style: TextStyle(color: Colors.black, fontSize: 28),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: _colorName,
-                      style:
-                      TextStyle(color: _color, fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(text: ' button is clicked.'),
-                  ],
-                ),
-              ),
-            ),
-            toggleButtonColor: Colors.blue,
+            backgroundWidget: background(),
+            toggleButtonColor: Colors.white,
+            toggleButtonIconColor: Color(0xff606060),
+
             items: [
               CircularMenuItem(
 
@@ -66,6 +67,7 @@ class _addAppState extends State<addApp> {
                     setState(() {
                       _color = Color(0xffE8F8C8);
                       _colorName = '뿌듯';
+                      _gradient.colors.add(_color);
                     });
                   }),
               CircularMenuItem(
@@ -75,6 +77,7 @@ class _addAppState extends State<addApp> {
                     setState(() {
                       _color = Color(0xff78BFE8);
                       _colorName = '슬픔';
+                      _gradient.colors.add(_color);
                     });
                   }),
               CircularMenuItem(
@@ -84,6 +87,7 @@ class _addAppState extends State<addApp> {
                     setState(() {
                       _color = Color(0xffECACB8);
                       _colorName = '기쁨';
+                      _gradient.colors.add(_color);
                     });
                   }),
               CircularMenuItem(
@@ -93,6 +97,7 @@ class _addAppState extends State<addApp> {
                     setState(() {
                       _color = Color(0xffCBD2FD);
                       _colorName = '피곤';
+                      _gradient.colors.add(_color);
                     });
                   }),
               CircularMenuItem(
@@ -102,6 +107,7 @@ class _addAppState extends State<addApp> {
                     setState(() {
                       _color = Color(0xff9ED6C0);
                       _colorName = '아쉬움';
+                      _gradient.colors.add(_color);
                     });
                   })
             ],
@@ -109,5 +115,33 @@ class _addAppState extends State<addApp> {
         ),
     );
 
+  }
+
+  Widget background(){
+
+    return Builder(
+      builder: (context) {
+        return Center(
+          child: Column(
+            children: [
+              Container(
+                  margin: EdgeInsets.all(100),
+                  child: Text('오늘은 어떤 감정들을 느꼈나요?',
+                    style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.0),
+                  )
+              ),
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: _gradient,
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    );
   }
 }

@@ -9,6 +9,8 @@ void main() {
   runApp(MaterialApp(home: homeApp()));
 }
 
+
+
 class homeApp extends StatefulWidget {
   @override
   _homeAppState createState() => _homeAppState();
@@ -73,11 +75,30 @@ class _homeAppState extends State<homeApp> {
                   builder: (context) {
                     return FloatingActionButton(
                       onPressed: (){
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => addApp()),
-                      );
-                      },child: Icon(Icons.add),
+                        _navigateAndDisplaySelection(context);
+                      },
+                      elevation: 0,
+                      child: Container(
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white54,
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 0),
+                            ),
+                          ],
+                        ),
+                        child: Icon(Icons.add, size: 40,),
+
+                      ),
+                      backgroundColor: Colors.white,
+                      foregroundColor: Color(0xff606060),
+                      hoverColor: Colors.redAccent,
                     );
                   }
               ),
@@ -143,6 +164,27 @@ class _homeAppState extends State<homeApp> {
 
           )
     );
+  }
+
+  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => addApp()),
+    ).then((value){
+      addGradient(value);
+    });
+
+    // When a BuildContext is used from a StatefulWidget, the mounted property
+    // must be checked after an asynchronous gap.
+    if (!mounted) return;
+
+    // After the Selection Screen returns a result, hide any previous snackbars
+    // and show the new result.
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text('$result')));
   }
 
   Widget shitcalendar() {
@@ -211,5 +253,45 @@ class _homeAppState extends State<homeApp> {
             ),
           );
         }));
+  }
+}
+
+class SelectionScreen extends StatelessWidget {
+  const SelectionScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pick an option'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Close the screen and return "Yep!" as the result.
+                  Navigator.pop(context, 'Yep!');
+                },
+                child: const Text('Yep!'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Close the screen and return "Nope." as the result.
+                  Navigator.pop(context, 'Nope.');
+                },
+                child: const Text('Nope.'),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

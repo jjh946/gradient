@@ -1,3 +1,4 @@
+import 'package:contact/home.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -56,7 +57,7 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
   late Color dialogPickerColor; // Color for picker in dialog using onChanged
   late Color dialogSelectColor; // Color for picker using color select dialog.
   late bool isDark;
-
+  late Color tired;
   // Define some custom colors for the custom picker segment.
   // The 'guide' color values are from
   // https://material.io/design/color/the-color-system.html#color-theme-creation
@@ -82,9 +83,10 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
 
   @override
   void initState() {
-    screenPickerColor = Colors.blue;
-    dialogPickerColor = Colors.red;
-    dialogSelectColor = const Color(0xFFA239CA);
+    screenPickerColor = const Color(0xFF78BFE8);
+    dialogPickerColor = const Color(0xffECACB8);
+    dialogSelectColor = const Color(0xFFE8F8C8);
+    tired = const Color(0xFFCBD2FD);
     isDark = false;
     super.initState();
   }
@@ -94,14 +96,29 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => homeApp()),
+          );
         }, icon: const Icon(Icons.arrow_back_ios,color: Color(0xff606060),)),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: Text('나의 감정 팔레트 설정', style: TextStyle(color: Color(0xff393939)),),
         centerTitle: true,
-        actions: [Icon(Icons.palette_outlined)],
-        
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.palette_outlined,
+                color: Color(0xff606060),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ColorPickerDemo()),
+                );
+              }),
+        ],
+
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -110,18 +127,16 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
           // Pick color in a dialog.
 
           ListTile(
-            title: const Text('Click to select a new color from a dialog '
-                'that uses custom open/close animation. The color is only '
-                'modified after dialog is closed with OK'),
+            title: const Text('뿌듯'),
             subtitle: Text(
               // ignore: lines_longer_than_80_chars
               '${ColorTools.materialNameAndCode(dialogSelectColor, colorSwatchNameMap: colorsNameMap)} '
                   'aka ${ColorTools.nameThatColor(dialogSelectColor)}',
             ),
             trailing: ColorIndicator(
-                width: 40,
-                height: 40,
-                borderRadius: 0,
+                width: 44,
+                height: 44,
+                borderRadius: 22,
                 color: dialogSelectColor,
                 elevation: 1,
                 onSelectFocus: false,
@@ -136,19 +151,18 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                         style: Theme.of(context).textTheme.titleLarge),
                     width: 40,
                     height: 40,
-                    spacing: 0,
-                    runSpacing: 0,
-                    borderRadius: 0,
+
+                    borderRadius: 4,
                     wheelDiameter: 165,
                     enableOpacity: true,
                     showColorCode: true,
-                    colorCodeHasColor: true,
+                    colorCodeHasColor: false,
                     pickersEnabled: <ColorPickerType, bool>{
                       ColorPickerType.wheel: true,
                     },
                     copyPasteBehavior: const ColorPickerCopyPasteBehavior(
-                      copyButton: true,
-                      pasteButton: true,
+                      copyButton: false,
+                      pasteButton: false,
                       longPressMenu: true,
                     ),
                     actionButtons: const ColorPickerActionButtons(
@@ -185,10 +199,154 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                   });
                 }),
           ),
+          ListTile(
+            title: const Text('슬픔'),
+            subtitle: Text(
+              // ignore: lines_longer_than_80_chars
+              '${ColorTools.materialNameAndCode(screenPickerColor, colorSwatchNameMap: colorsNameMap)} '
+                  'aka ${ColorTools.nameThatColor(screenPickerColor)}',
+            ),
+            trailing: ColorIndicator(
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                color: screenPickerColor,
+                elevation: 1,
+                onSelectFocus: false,
+                onSelect: () async {
+                  // Wait for the dialog to return color selection result.
+                  final Color newColor = await showColorPickerDialog(
+                    // The dialog needs a context, we pass it in.
+                    context,
+                    // We use the dialogSelectColor, as its starting color.
+                    screenPickerColor,
+                    title: Text('ColorPicker',
+                        style: Theme.of(context).textTheme.titleLarge),
+                    width: 40,
+                    height: 40,
 
+                    borderRadius: 4,
+                    wheelDiameter: 165,
+                    enableOpacity: true,
+                    showColorCode: true,
+                    colorCodeHasColor: false,
+                    pickersEnabled: <ColorPickerType, bool>{
+                      ColorPickerType.wheel: true,
+                    },
+                    copyPasteBehavior: const ColorPickerCopyPasteBehavior(
+                      copyButton: false,
+                      pasteButton: false,
+                      longPressMenu: true,
+                    ),
+                    actionButtons: const ColorPickerActionButtons(
+                      okButton: true,
+                      closeButton: true,
+                      dialogActionButtons: false,
+                    ),
+                    transitionBuilder: (BuildContext context,
+                        Animation<double> a1,
+                        Animation<double> a2,
+                        Widget widget) {
+                      final double curvedValue =
+                          Curves.easeInOutBack.transform(a1.value) - 1.0;
+                      return Transform(
+                        transform: Matrix4.translationValues(
+                            0.0, curvedValue * 200, 0.0),
+                        child: Opacity(
+                          opacity: a1.value,
+                          child: widget,
+                        ),
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 400),
+                    constraints: const BoxConstraints(
+                        minHeight: 480, minWidth: 320, maxWidth: 320),
+                  );
+                  // We update the dialogSelectColor, to the returned result
+                  // color. If the dialog was dismissed it actually returns
+                  // the color we started with. The extra update for that
+                  // below does not really matter, but if you want you can
+                  // check if they are equal and skip the update below.
+                  setState(() {
+                    screenPickerColor = newColor;
+                  });
+                }),
+          ),
 
+          // Show the selected color.
+          ListTile(
+            title: const Text('기쁨'),
+            subtitle: Text(
+              // ignore: lines_longer_than_80_chars
+              '${ColorTools.materialNameAndCode(dialogPickerColor, colorSwatchNameMap: colorsNameMap)} '
+                  'aka ${ColorTools.nameThatColor(dialogPickerColor)}',
+            ),
+            trailing: ColorIndicator(
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                color: dialogPickerColor,
+                elevation: 1,
+                onSelectFocus: false,
+                onSelect: () async {
+                  // Wait for the dialog to return color selection result.
+                  final Color newColor = await showColorPickerDialog(
+                    // The dialog needs a context, we pass it in.
+                    context,
+                    // We use the dialogSelectColor, as its starting color.
+                    dialogPickerColor,
+                    title: Text('ColorPicker',
+                        style: Theme.of(context).textTheme.titleLarge),
+                    width: 40,
+                    height: 40,
 
-          // Show the color picker in sized box in a raised card.
+                    borderRadius: 4,
+                    wheelDiameter: 165,
+                    enableOpacity: true,
+                    showColorCode: true,
+                    colorCodeHasColor: false,
+                    pickersEnabled: <ColorPickerType, bool>{
+                      ColorPickerType.wheel: true,
+                    },
+                    copyPasteBehavior: const ColorPickerCopyPasteBehavior(
+                      copyButton: false,
+                      pasteButton: false,
+                      longPressMenu: true,
+                    ),
+                    actionButtons: const ColorPickerActionButtons(
+                      okButton: true,
+                      closeButton: true,
+                      dialogActionButtons: false,
+                    ),
+                    transitionBuilder: (BuildContext context,
+                        Animation<double> a1,
+                        Animation<double> a2,
+                        Widget widget) {
+                      final double curvedValue =
+                          Curves.easeInOutBack.transform(a1.value) - 1.0;
+                      return Transform(
+                        transform: Matrix4.translationValues(
+                            0.0, curvedValue * 200, 0.0),
+                        child: Opacity(
+                          opacity: a1.value,
+                          child: widget,
+                        ),
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 400),
+                    constraints: const BoxConstraints(
+                        minHeight: 480, minWidth: 320, maxWidth: 320),
+                  );
+                  // We update the dialogSelectColor, to the returned result
+                  // color. If the dialog was dismissed it actually returns
+                  // the color we started with. The extra update for that
+                  // below does not really matter, but if you want you can
+                  // check if they are equal and skip the update below.
+                  setState(() {
+                    dialogPickerColor = newColor;
+                  });
+                }),
+          ),
           SizedBox(
             width: double.infinity,
             child: Padding(
@@ -216,75 +374,11 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
               ),
             ),
           ),
-          // Show the selected color.
-          ListTile(
-            title: const Text('Select color below to change this color'),
-            subtitle:
-            Text('${ColorTools.materialNameAndCode(screenPickerColor)} '
-                'aka ${ColorTools.nameThatColor(screenPickerColor)}'),
-            trailing: ColorIndicator(
-              width: 44,
-              height: 44,
-              borderRadius: 22,
-              color: screenPickerColor,
-            ),
-          ),
 
           // Theme mode toggle
 
         ],
       ),
-    );
-  }
-
-  Future<bool> colorPickerDialog() async {
-    return ColorPicker(
-      color: dialogPickerColor,
-      onColorChanged: (Color color) =>
-          setState(() => dialogPickerColor = color),
-      width: 40,
-      height: 40,
-      borderRadius: 4,
-      spacing: 5,
-      runSpacing: 5,
-      wheelDiameter: 155,
-      heading: Text(
-        'Select color',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      subheading: Text(
-        'Select color shade',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      wheelSubheading: Text(
-        'Selected color and its shades',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      showMaterialName: true,
-      showColorName: true,
-      showColorCode: true,
-      copyPasteBehavior: const ColorPickerCopyPasteBehavior(
-        longPressMenu: true,
-      ),
-      materialNameTextStyle: Theme.of(context).textTheme.bodySmall,
-      colorNameTextStyle: Theme.of(context).textTheme.bodySmall,
-      colorCodeTextStyle: Theme.of(context).textTheme.bodyMedium,
-      colorCodePrefixStyle: Theme.of(context).textTheme.bodySmall,
-      selectedPickerTypeColor: Theme.of(context).colorScheme.primary,
-      pickersEnabled: const <ColorPickerType, bool>{
-        ColorPickerType.both: false,
-        ColorPickerType.primary: true,
-        ColorPickerType.accent: true,
-        ColorPickerType.bw: false,
-        ColorPickerType.custom: true,
-        ColorPickerType.wheel: true,
-      },
-      customColorSwatchesAndNames: colorsNameMap,
-    ).showPickerDialog(
-      context,
-      actionsPadding: const EdgeInsets.all(16),
-      constraints:
-      const BoxConstraints(minHeight: 480, minWidth: 300, maxWidth: 320),
     );
   }
 }
