@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'colorpicker.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import 'package:flutter_gradients/flutter_gradients.dart';
+// import 'package:flutter_gradients/flutter_gradients.dart';
 import 'circlur_menu.dart';
 
 void main() {
@@ -22,18 +22,18 @@ class _homeAppState extends State<homeApp> {
   DateTime _targetDateTime = DateTime(2022, 12, 14);
 
   List gradientList = [
-    FlutterGradients.magicLake(),
-    FlutterGradients.flyingLemon(),
-    FlutterGradients.forestInei(),
-    FlutterGradients.freshMilk(),
-    FlutterGradients.freshOasis(),
-    FlutterGradients.frozenBerry(),
-    FlutterGradients.frozenDreams(),
-    FlutterGradients.frozenHeat(),
-    FlutterGradients.fruitBlend(),
-    FlutterGradients.gagarinView(),
-    FlutterGradients.gentleCare(),
-    FlutterGradients.grassShampoo(),
+    // FlutterGradients.magicLake(),
+    // FlutterGradients.flyingLemon(),
+    // FlutterGradients.forestInei(),
+    // FlutterGradients.freshMilk(),
+    // FlutterGradients.freshOasis(),
+    // FlutterGradients.frozenBerry(),
+    // FlutterGradients.frozenDreams(),
+    // FlutterGradients.frozenHeat(),
+    // FlutterGradients.fruitBlend(),
+    // FlutterGradients.gagarinView(),
+    // FlutterGradients.gentleCare(),
+    // FlutterGradients.grassShampoo(),
     LinearGradient(
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
@@ -133,7 +133,7 @@ class _homeAppState extends State<homeApp> {
                         color: Color(0xff606060),
                       ),
                       onPressed: () {
-                        addGradient(FlutterGradients.seaStrike());
+                        // addGradient(FlutterGradients.seaStrike());
                       }),
                   IconButton(
                       icon: Icon(
